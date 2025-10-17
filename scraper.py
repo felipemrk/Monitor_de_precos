@@ -1,6 +1,7 @@
 'Sim'
 # scraper.py
 import requests
+from bs4 import BeautifulSoup
 
 
 def buscar_pagina(url):
@@ -16,3 +17,11 @@ def buscar_pagina(url):
     except Exception as e:
         print(f"Ocorreu um erro na requisição: {e}")
         return None
+
+
+def buscar_livros(html):
+    'Encontrar o título dos livros'
+    soup = BeautifulSoup(html, 'html.parser')
+    titulos = soup.find_all('h3', class_='title=')
+    for livros in titulos:
+        print(livros.text.strip())

@@ -1,6 +1,7 @@
 'Sim'
 # main.py
 from scraper import buscar_pagina  # Importa a ferramenta do nosso módulo
+from scraper import buscar_livros  # Importa o buscador de livros
 
 if __name__ == "__main__":
     url_alvo = 'https://books.toscrape.com/'  # Um site simples para teste
@@ -9,6 +10,6 @@ if __name__ == "__main__":
     html_da_pagina = buscar_pagina(url_alvo)
 
     if html_da_pagina:
-        print("\nConexão bem-sucedida! Os primeiros 500 caracteres da página são:")
+        print("\nConexão bem-sucedida!")
         # Imprime só o comecinho para não poluir a tela
-        print(html_da_pagina[:500])
+        buscar_livros(html_da_pagina)
