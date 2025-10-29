@@ -1,0 +1,22 @@
+import requests
+from bs4 import BeautifulSoup
+
+# Fazendo a requisição para a página de notícias
+url = 'https://books.toscrape.com/'
+response = requests.get(url)
+html = response.text
+
+# Criando o objeto Beautiful Soup
+soup = BeautifulSoup(html, 'html.parser')
+
+# Buscando todos os elementos que contêm os títulos das notícias
+todos_os_titulos = soup.find_all('h3')
+
+
+# Extraindo e imprimindo os títulos
+for tag_h3 in soup.find_all('h3'):
+    tag_a = tag_h3.find('a')
+    if tag_a:
+        title = tag_a.get('title')
+        if title:
+            print(title)
