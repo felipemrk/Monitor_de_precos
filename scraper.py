@@ -22,12 +22,13 @@ def buscar_pagina(url):
 def buscar_livros(html):
     'Encontrar o título dos livros'
     soup = BeautifulSoup(html, 'html.parser')
-    for tag_h3 in soup.find_all('h3'):
-        tag_a = tag_h3.find('a')
-        if tag_a:
-            title = tag_a.get('title')
-            if title:
-                print(title)
+    lista_dicio_livros = []
+    for tag in soup.find_all('article', class_="product_pod"):
+        titulo = tag.find('h3').find('a').get('title')
+        price = tag.find('p', class_='price_color').text
+        dicio = {'Título': titulo, 'Preco': price}
+        lista_dicio_livros.append(dicio)
+    return lista_dicio_livros
 
 # Ver amanhã como buscar os dois.
 # Pensei em adicionar os dois em listas e depois adiciona-los ao dicio
