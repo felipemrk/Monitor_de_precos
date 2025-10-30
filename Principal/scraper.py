@@ -27,9 +27,40 @@ def buscar_livros(html):
     for tag in soup.find_all('article', class_="product_pod"):
         titulo = tag.find('h3').find('a').get('title')
         price = tag.find('p', class_='price_color').text
+        price = float(price[1:])
         dicio = {'Título': titulo, 'Preco': price}
         lista_dicio_livros.append(dicio)
     return lista_dicio_livros
+
+
+# Adicionado pelo Claude
+def buscar_todas_paginas(url_base, num_paginas=5):
+    """
+    Busca livros de múltiplas páginas.
+
+    Args:
+        url_base: URL com placeholder {} para o número da página
+        num_paginas: Quantidade de páginas para buscar (padrão: 5)
+
+    Returns:
+        Lista com todos os livros encontrados
+    """
+    lista_completa_de_livros = []
+
+    for i in range(1, num_paginas + 1):
+        url_da_pagina_atual = url_base.format(i)
+        print(f"Buscando dados da página {i}...")
+
+        html_da_pagina = buscar_pagina(url_da_pagina_atual)
+
+        if html_da_pagina:
+            livros_desta_pagina = buscar_livros(html_da_pagina)
+            lista_completa_de_livros.extend(livros_desta_pagina)
+        else:
+            print(f"⚠ Não foi possível acessar a página {i}")
+
+    return lista_completa_de_livros
+
 
 # Ver amanhã como buscar os dois.
 # Pensei em adicionar os dois em listas e depois adiciona-los ao dicio

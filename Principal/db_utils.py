@@ -15,12 +15,16 @@ def salvar_livros_db(lista_livros):
         CREATE TABLE IF NOT EXISTS Livros (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             Title TEXT NOT NULL,
-            Price REAL
+            Price REAL,
+            UNIQUE(Title, Price)
             )
         '''
 
+        # query = "DELETE FROM Livros WHERE id > ?"
+
         # Executar o comando SQL no DB
         cursor.execute(create_table_query)
+        # cursor.execute(query, (20,))
 
         # Fazer o commit das changes
         connection.commit()
@@ -29,7 +33,7 @@ def salvar_livros_db(lista_livros):
         print("Table 'Livros' successfully created")
         print('Loading data...')
         valores = [(d['Título'], d['Preco']) for d in lista_livros]
-        cursor.executemany("INSERT INTO Livros (Title, Price) VALUES (?, ?)",
-                           valores)
+        cursor.executemany("INSERT OR IGNORE INTO Livros (Title, Price)"
+                           "VALUES (?, ?)", valores)
         connection.commit()
         print('DB updated.')

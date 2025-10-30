@@ -1,15 +1,18 @@
 'Sim'
 # main.py
-from scraper import buscar_pagina  # Importa a ferramenta do nosso módulo
-from scraper import buscar_livros  # Importa o buscador de livros
+from scraper import buscar_todas_paginas, buscar_livros, buscar_pagina
 from db_utils import salvar_livros_db  # Salva os livros no DB
 
 if __name__ == "__main__":
-    url_alvo = 'https://books.toscrape.com/'  # Um site simples para teste
+    url_alvo = 'https://books.toscrape.com/catalogue/page-{}.html'
+    # Um site simples para teste
 
     print(f"Buscando conteúdo da URL: {url_alvo}")
-    html_da_pagina = buscar_pagina(url_alvo)
+    lista_completa_de_livros = buscar_todas_paginas(url_alvo, num_paginas=50)
 
-    if html_da_pagina:
-        print("\nConexão bem-sucedida!")
-        salvar_livros_db(buscar_livros(html_da_pagina))
+    if lista_completa_de_livros:
+        print(f'\n ✓ Coleta finalizada! '
+              f'Total de {len(lista_completa_de_livros)} livros encontrados.')
+        salvar_livros_db(lista_completa_de_livros)
+    else:
+        print("Nenhum livro foi encontrado.")
