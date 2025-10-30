@@ -2,6 +2,7 @@
 # main.py
 from scraper import buscar_pagina  # Importa a ferramenta do nosso módulo
 from scraper import buscar_livros  # Importa o buscador de livros
+from db_utils import salvar_livros_db  # Salva os livros no DB
 
 if __name__ == "__main__":
     url_alvo = 'https://books.toscrape.com/'  # Um site simples para teste
@@ -11,5 +12,4 @@ if __name__ == "__main__":
 
     if html_da_pagina:
         print("\nConexão bem-sucedida!")
-        # Imprime só o comecinho para não poluir a tela
-        buscar_livros(html_da_pagina)
+        salvar_livros_db(buscar_livros(html_da_pagina))

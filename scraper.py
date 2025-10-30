@@ -8,6 +8,7 @@ def buscar_pagina(url):
     """Visita uma URL e retorna todo o seu conteúdo HTML como texto."""
     try:
         resposta = requests.get(url)
+        resposta.encoding = 'utf-8'
         # Verifica se a requisição foi bem-sucedida (código 200)
         if resposta.status_code == 200:
             return resposta.text
