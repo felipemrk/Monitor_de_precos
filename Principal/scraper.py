@@ -33,8 +33,20 @@ def buscar_livros(html):
     return lista_dicio_livros
 
 
+def buscar_generos(html):
+    'Encontra todos os gêneros para realizar a procura dos livros'
+    lista_generos = []
+    soup = BeautifulSoup(html, 'html.parser')
+    for tag in soup.find_all('ul', class_="nav nav-list"):
+        genre = tag.find('ul').find('a', href=True).text
+        link = tag.find('ul').find('a', href=True).get('href')
+        dicio_generos = {"Genero": genre.strip(), "Link": link}
+        lista_generos.append(dicio_generos)
+    return lista_generos
+
+
 # Adicionado pelo Claude
-def buscar_todas_paginas(url_base, num_paginas=5):
+def buscar_todas_paginas(url_base, num_paginas=50):
     """
     Busca livros de múltiplas páginas.
 
@@ -64,3 +76,5 @@ def buscar_todas_paginas(url_base, num_paginas=5):
 
 # Ver amanhã como buscar os dois.
 # Pensei em adicionar os dois em listas e depois adiciona-los ao dicio
+
+print(buscar_generos(buscar_pagina('https://books.toscrape.com/')))
